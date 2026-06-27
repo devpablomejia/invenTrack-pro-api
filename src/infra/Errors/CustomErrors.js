@@ -12,6 +12,13 @@ export class EmailAlreadyRegisteredError extends Error {
     }
 };
 
+export class BadCredentialsError extends Error {
+    constructor(message) {
+        super(message);
+        this.statusCode = 400;
+    }
+};
+
 export class UnauthorizeError extends Error {
     constructor(message) {
         super(message);
