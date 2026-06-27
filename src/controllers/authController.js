@@ -25,3 +25,28 @@ export const registrarUsuario = async (req, res) => {
         });
     }
 };
+
+export const autenticarUsuario = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const tokenGenerated = await usuarioService.authenticateUsuario(email, password);
+
+        return res.status(200).json({
+            status: 'success',
+            message: 'Usuario autenticado Exitosamente',
+            token: `Bearer ${tokenGenerated}`
+        });
+    } catch (error) {
+        const statusCode = error.statusCode || 500;
+        const message = error.statusCode ? error.message : 'Error interno del servidor';
+
+        if (statusCode === 500) {
+            console.error('Error no controlado:', error);
+        }
+
+        return res.status(statusCode).json({
+            status: 'error',
+            message: message
+        });
+    }
+};
