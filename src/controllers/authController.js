@@ -1,5 +1,5 @@
 import * as usuarioService from '../services/usuarioService.js';
-import { errorReturn } from "../infra/Errors/errorReturn.js";
+import { errorReturn } from "../infra/errors/errorReturn.js";
 
 export const registrarUsuario = async (req, res) => {
     try {

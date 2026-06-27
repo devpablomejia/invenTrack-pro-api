@@ -1,7 +1,7 @@
 import * as bycript from '../infra/security/bycript.js';
 import * as usuarioRepository from '../repositories/usuarioRepository.js';
 import { findRolByNombre } from '../repositories/rolRepository.js';
-import { BadCredentialsError, EmailAlreadyRegisteredError, ResourceNotFoundError, UnauthorizeError } from '../infra/Errors/CustomErrors.js';
+import { BadCredentialsError, EmailAlreadyRegisteredError, ResourceNotFoundError, UnauthorizeError } from '../infra/errors/CustomErrors.js';
 import * as jwtService from '../infra/security/jwt.js';
 
 export const createUsuario = async (nombre, email, password, rol) => {
