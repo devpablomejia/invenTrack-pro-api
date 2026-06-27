@@ -1,9 +1,12 @@
 import * as bycript from '../infra/security/bycript.js';
 import * as usuarioRepository from '../repositories/usuarioRepository.js';
 import { findRolByNombre } from '../repositories/rolRepository.js';
-import { ResourceNotFoundError } from '../infra/Errors/CustomErrors.js';
+import { EmailAlreadyRegisteredError, ResourceNotFoundError } from '../infra/Errors/CustomErrors.js';
 
 export const createUsuario = async (nombre, email, password, rol) => {
+    if (usuarioRepository.existUsuarioByEmail(email)) {
+        throw new EmailAlreadyRegisteredError('El email ya esta registrado');
+    };
     const rolId = await extractRol(rol);
     const hashedPassword = await bycript.encodePassword(password);
     return await usuarioRepository.saveUsuario(nombre, email, hashedPassword, rolId);
