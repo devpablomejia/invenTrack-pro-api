@@ -20,3 +20,17 @@ export const getPageProductos = async (req, res) => {
         errorReturn(error, res);
     }
 };
+
+export const createProducto = async (req, res) => {
+    try {
+        const { sku, nombre, descripcion, precio, stockActual, categoria } = req.body;
+        const nuevoProducto = await productosService.createProducto(sku, nombre, descripcion, precio, stockActual, categoria);
+        return res.status(201).json({
+            status: 'success',
+            message: 'Producto creado exitosamente',
+            data: { id: nuevoProducto.insertId, sku, nombre, descripcion, precio, stockActual, categoria }
+        });
+    } catch (error) {
+        errorReturn(error, res);
+    }
+}
