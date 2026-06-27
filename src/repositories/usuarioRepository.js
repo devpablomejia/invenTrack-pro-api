@@ -33,3 +33,11 @@ export const existUsuarioByEmail = async (email) => {
     }
     return false;
 };
+
+export const loadUsuarioByEmail = async (email) => {
+    const [rows] = await pool.query(
+        "SELECT u.id, u.email, u.password, r.nombre FROM usuarios u INNER JOIN roles r ON r.id = u.role_id WHERE u.email = ?",
+        [email]
+    );
+    return rows;
+};
