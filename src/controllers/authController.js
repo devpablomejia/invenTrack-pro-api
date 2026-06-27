@@ -1,4 +1,5 @@
 import * as usuarioService from '../services/usuarioService.js';
+import { errorReturn } from "../infra/Errors/errorReturn.js";
 
 export const registrarUsuario = async (req, res) => {
     try {
@@ -12,17 +13,7 @@ export const registrarUsuario = async (req, res) => {
         });
 
     } catch (error) {
-        const statusCode = error.statusCode || 500;
-        const message = error.statusCode ? error.message : 'Error interno del servidor';
-
-        if (statusCode === 500) {
-            console.error('Error no controlado:', error);
-        }
-
-        return res.status(statusCode).json({
-            status: 'error',
-            message: message
-        });
+        errorReturn(error, res);
     }
 };
 
@@ -37,16 +28,6 @@ export const autenticarUsuario = async (req, res) => {
             token: `Bearer ${tokenGenerated}`
         });
     } catch (error) {
-        const statusCode = error.statusCode || 500;
-        const message = error.statusCode ? error.message : 'Error interno del servidor';
-
-        if (statusCode === 500) {
-            console.error('Error no controlado:', error);
-        }
-
-        return res.status(statusCode).json({
-            status: 'error',
-            message: message
-        });
+        errorReturn(error, res);
     }
 };
