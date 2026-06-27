@@ -1,13 +1,17 @@
 import * as bycript from '../infra/security/bycript.js';
 import * as usuarioRepository from '../repositories/usuarioRepository.js';
 import { findRolByNombre } from '../repositories/rolRepository.js';
-import { EmailAlreadyRegisteredError, ResourceNotFoundError, UnauthorizeError } from '../infra/Errors/CustomErrors.js';
+import { BadCredentialsError, EmailAlreadyRegisteredError, ResourceNotFoundError, UnauthorizeError } from '../infra/Errors/CustomErrors.js';
 import * as jwtService from '../infra/security/jwt.js';
 
 export const createUsuario = async (nombre, email, password, rol) => {
     const isExistUsuario = await usuarioRepository.existUsuarioByEmail(email);
     if (isExistUsuario) {
         throw new EmailAlreadyRegisteredError('El email ya esta registrado');
+    };
+    const restrictedRoles = new Set(['ADMIN']);
+    if (restrictedRoles.has(rol)) {
+        throw new BadCredentialsError('NO te puedes asignar este rol');
     };
     const rolId = await extractRol(rol);
     const hashedPassword = await bycript.encodePassword(password);
