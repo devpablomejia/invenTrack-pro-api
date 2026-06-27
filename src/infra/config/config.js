@@ -9,5 +9,7 @@ export const config = {
     db_user: process.env.DB_USER,
     db_password: process.env.DB_PASSWORD,
     db_name: process.env.DB_NAME,
-    api_version: process.env.API_VERSION || '/api/v1'
+    api_version: process.env.API_VERSION || '/api/v1', 
+    jwt_secret: process.env.JWT_SECRET, 
+    jwt_expires_in: process.env.JWT_EXPIRES_IN, 
 };
