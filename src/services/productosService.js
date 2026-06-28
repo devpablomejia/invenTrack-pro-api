@@ -17,3 +17,12 @@ export const createProducto = async (sku, nombre, descripcion, precio, stockActu
     const categoriaId = catgResult[0].id;
     return await productosRepository.saveProducto(sku, nombre, descripcion, precio, stockActual, categoriaId);
 };
+
+export const updateProducto = async (sku, nombre, descripcion, precio, stockActual, categoria, id) => {
+    const catgResult = await findCategoriaByNombre(categoria);
+    if (!catgResult || catgResult.length === 0 || !catgResult[0].id) {
+        throw new ResourceNotFoundError('La categoria especificada no existe en el sistema');
+    }
+    const categoriaId = catgResult[0].id;
+    return await productosRepository.updateProducto(sku, nombre, descripcion, precio, stockActual, categoriaId, id);
+};
