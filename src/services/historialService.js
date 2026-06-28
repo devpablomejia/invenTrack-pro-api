@@ -4,6 +4,10 @@ import { findUsuarioById } from "../repositories/usuarioRepository.js";
 import { findProductoByNombre } from "../repositories/productosRepository.js";
 import { ResourceNotFoundError, UsuarioNotFoundError } from "../infra/errors/CustomErrors.js";
 
+export const getPageMovimientos = async (page, limit) => {
+    return await historialRepository.findPageMovimienrtos(page, limit);
+};
+
 export const registrarHistorialMovimiento = async (producto, usuarioId, tipo, cantidad, motivo) => {
     const productoFormatt = producto.trim();
     const tipoFormatt = tipo.trim().toUpperCase();
