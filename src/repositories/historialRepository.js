@@ -1,6 +1,41 @@
 import { pool } from "../infra/config/db.js";
 import { ResourceNotFoundError } from "../infra/errors/CustomErrors.js"
 
+export const findPageMovimienrtos = async (page = 1, limit = 10) => {
+    const numPage = parseInt(page);
+    const numLimit = parseInt(limit);
+    const offset = (numPage - 1) * numLimit;
+    const dataQuery = `
+        SELECT 
+            hm.id AS movimiento_id,
+            p.nombre AS producto,
+            u.nombre AS usuario,
+            tm.nombre AS tipo,
+            hm.cantidad,
+            hm.motivo,
+            hm.fecha_registro
+        FROM historial_movimiento hm 
+        INNER JOIN usuarios u ON hm.usuario_id = u.id 
+        INNER JOIN productos p ON hm.producto_id = p.id
+        INNER JOIN tipo_movimiento tm ON hm.tipo_movimiento_id = tm.id
+        ORDER BY hm.id DESC 
+        lIMIT ? OFFSET ?;
+    `;
+    const countQuery = `SELECT COUNT(*) AS total FROM historial_movimiento`;
+    const [[rowsData], [rowsCount]] = await Promise.all([
+        pool.query(dataQuery, [numLimit, offset]),
+        pool.query(countQuery)
+    ]);
+
+    const totalItems = rowsCount[0].total;
+    const totalPages = Math.ceil(totalItems / numLimit);
+    return {
+        movimientos: rowsData,
+        totalItems,
+        totalPages
+    };
+};
+
 export const saveMovimientoStock = async (productoId, usuarioId, tipoId, cantidad, motivo) => {
     const connection = await pool.getConnection();
     try {
