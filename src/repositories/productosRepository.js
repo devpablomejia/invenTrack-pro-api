@@ -25,6 +25,16 @@ export const findPageProductos = async (page = 1, limit = 10) => {
     };
 };
 
+export const findProductoById = async (id) => {
+    const [rows] = await pool.query("SELECT * FROM  productos WHERE id = ?", [id]);
+    return rows;
+};
+
+export const findProductoByNombre = async (nombre) => {
+    const [rows] = await pool.query("SELECT * FROM  productos WHERE nombre = ?", [nombre]);
+    return rows;
+};
+
 export const saveProducto = async (sku, nombre, descripcion, precio, stockActual, categoriaId) => {
     const [result] = await pool.query(
         "INSERT INTO productos (sku, nombre, descripcion, precio, stock_actual, categoria_id) VALUES (?, ?, ?, ?, ?, ?) ",
