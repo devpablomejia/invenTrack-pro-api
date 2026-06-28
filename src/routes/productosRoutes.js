@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getPageProductos, createProducto, getProductoById} from "../controllers/productosController.js";
+import { getPageProductos, createProducto, getProductoById, updateProducto } from "../controllers/productosController.js";
 import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
 import { createValidationMiddleware } from "../middlewares/createValidationMiddleware.js";
 import { productoSchema, productoIdShema } from "../utils/schemas/productosSchemas.js";
@@ -23,6 +23,14 @@ router.post("/productos",
     verifyToken,
     authorizeRoles('ADMIN', 'MANAGER'),
     createValidationMiddleware({ body: productoSchema }),
-    createProducto);
+    createProducto
+);
+router.patch("/productos/:productoId",
+    verifyToken,
+    authorizeRoles('ADMIN', 'MANAGER'),
+    createValidationMiddleware({ params: productoIdShema }),
+    createValidationMiddleware({ body: productoSchema }),
+    updateProducto
+);
 
 export default router;
