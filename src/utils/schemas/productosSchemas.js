@@ -2,9 +2,17 @@ import joi from "joi";
 
 
 export const productoIdShema = {
-    productoId: joi.number().required().messages({
-        'any.required': 'El id del usuario es obligatorio'
-    })
+    productoId: joi.number()
+        .integer()
+        .min(1)
+        .default(1)
+        .required()
+        .messages({
+            'number.base': 'El id debe ser un numero',
+            'number.integer': 'El id debe ser un número entero.',
+            'number.min': 'El id mínimo permitido es {#limit}.',
+            'any.required': 'El id del usuario es obligatorio'
+        })
 };
 
 export const createProductoSchema = {
