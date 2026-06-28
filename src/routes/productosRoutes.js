@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getPageProductos, createProducto, getProductoById} from "../controllers/productosController.js";
 import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
 import { createValidationMiddleware } from "../middlewares/createValidationMiddleware.js";
-import { createProductoSchema, productoIdShema } from "../utils/schemas/productosSchemas.js";
+import { productoSchema, productoIdShema } from "../utils/schemas/productosSchemas.js";
 import { paginationQuerySchema } from "../utils/schemas/paginationShemas.js";
 
 const router = Router();
@@ -22,7 +22,7 @@ router.get("/productos/:productoId",
 router.post("/productos",
     verifyToken,
     authorizeRoles('ADMIN', 'MANAGER'),
-    createValidationMiddleware({ body: createProductoSchema }),
+    createValidationMiddleware({ body: productoSchema }),
     createProducto);
 
 export default router;

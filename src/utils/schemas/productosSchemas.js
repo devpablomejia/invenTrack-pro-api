@@ -15,7 +15,7 @@ export const productoIdShema = {
         })
 };
 
-export const createProductoSchema = {
+export const productoSchema = {
     sku: joi.string()
         .required()
         .messages({
