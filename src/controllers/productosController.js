@@ -46,4 +46,24 @@ export const createProducto = async (req, res) => {
     } catch (error) {
         errorReturn(error, res);
     }
-}
+};
+
+export const updateProducto = async (req, res) => {
+    try {
+        const { productoId } = req.params;
+        const { sku, nombre, descripcion, precio, stockActual, categoria } = req.body;
+        const producto = await productosService.updateProducto(sku, nombre, descripcion, precio, stockActual, categoria, productoId);
+        if (producto.affectedRows <= 0) {
+            return res.status(404).json({ message: `El Producto con el id: ${productoId} no existe` });
+        }
+        const productoUpd = await productosService.getProductoById(productoId);
+        const data = productoUpd[0];
+        return res.status(201).json({
+            status: 'success',
+            message: 'Producto actualizado exitosamente',
+            data: { data }
+        });
+    } catch (error) {
+        errorReturn(error, res);
+    }
+};
