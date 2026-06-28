@@ -1,5 +1,6 @@
 import * as productosRepository from "../repositories/productosRepository.js";
 import { findCategoriaByNombre } from "../repositories/categoriaRepository.js";
+import { ResourceNotFoundError } from "../infra/errors/CustomErrors.js"
 
 export const getPageProductos = async (page, limit) => {
     return await productosRepository.findPageProductos(page, limit);
