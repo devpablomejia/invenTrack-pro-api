@@ -5,6 +5,10 @@ export const getPageProductos = async (page, limit) => {
     return await productosRepository.findPageProductos(page, limit);
 };
 
+export const getProductoById = async (id) => {
+    return await productosRepository.findProductoById(id);
+};
+
 export const createProducto = async (sku, nombre, descripcion, precio, stockActual, categoria) => {
     const catgResult = await findCategoriaByNombre(categoria);
     if (!catgResult || catgResult.length === 0 || !catgResult[0].id) {
@@ -12,4 +16,4 @@ export const createProducto = async (sku, nombre, descripcion, precio, stockActu
     }
     const categoriaId = catgResult[0].id;
     return await productosRepository.saveProducto(sku, nombre, descripcion, precio, stockActual, categoriaId);
-}; 
+};
