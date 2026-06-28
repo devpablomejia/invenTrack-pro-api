@@ -42,3 +42,18 @@ export const saveProducto = async (sku, nombre, descripcion, precio, stockActual
     );
     return result;
 };
+
+export const updateProducto = async (sku, nombre, descripcion, precio, stockActual, categoriaId, id) => {
+    const updateQuery = `
+        UPDATE productos SET 
+        sku = IFNULL(?, sku), 
+        nombre = IFNULL(?, nombre), 
+        descripcion = IFNULL(?, descripcion), 
+        precio = IFNULL(?, precio), 
+        stock_actual = IFNULL(?, stock_actual), 
+        categoria_id = IFNULL(?, categoria_id)
+        WHERE id = ?
+    `;
+    const [result] = await pool.query(updateQuery, [sku, nombre, descripcion, precio, stockActual, categoriaId, id]);
+    return result;
+};
