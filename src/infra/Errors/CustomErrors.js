@@ -25,3 +25,11 @@ export class UnauthorizeError extends Error {
         this.statusCode = 401;
     }
 }; 
+
+
+export class UsuarioNotFoundError extends Error {
+    constructor(message) {
+        super(message);
+        this.statusCode = 404;
+    }
+}; 
